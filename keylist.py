@@ -1,3 +1,5 @@
+# coding=utf-8
+
 ##################################################
 ## Begin KEYLIST script.                        ##
 ##################################################
@@ -26,47 +28,44 @@
 # Import necessary modules
 import nltk
 
+def readfile(filename):
+    f = open(filename)
+    contents = f.read()
+    f.close()
+    return contents
+
 # Get reference info
-rfile = open('reflistX.txt')
-rstuff = rfile.read()
-rfile.close()
+rstuff = readfile('reflistX.txt')
+
 rtokens = nltk.word_tokenize(rstuff)
 rtext = nltk.Text(rtokens)
 
 # Get frequency list of the Top 2000 words in the reference list (rtop2k)
 rfreq = nltk.FreqDist(rtext)
-print "Reference frequency list: %s" % rfreq
+print("Reference frequency list: %s" % rfreq)
 rtop2k = rfreq.most_common(2000)
-print "Top 2000 list: %s" % rtop2k
+exclusion_words = []
+for r in rtop2k:
+    exclusion_words.append(r[0])
+print("Top 2000 list: %s" % rtop2k)
 
 # Get target info
-tfile = open('targlistX.txt')
-tstuff = tfile.read()
-tfile.close()
+tstuff = readfile('targlistX.txt')
+
 ttokens = nltk.word_tokenize(tstuff)
 ttext = nltk.Text(ttokens)
 
 # Get frequency list of all the target info (tfreq)
 tfreq = nltk.FreqDist(ttext)
-print "Target frequency list: %s" % tfreq
+print("Target frequency list: %s" % tfreq)
 
-##################################################
-## NOT WORKING RIGHT                    (ಥ﹏ಥ) ##
-##################################################
-## This is supposed to generate a list of       ##
-## words from tfreq that aren't in rtop2k, but  ##
-## what I get for output is the entirety of     ##
-## tfreq.                                       ##
-##################################################
-##...                                           ##
+
 # Generate list of target words (klist) by excluding rtop2k from tfreq
 klist = []
 for w in tfreq:
-    if w not in rtop2k:
+    if w not in exclusion_words:
         klist.append(w)
-print "Key word list: %s" % klist
-##                                           ...##
-##################################################
+print("Key word list: %s" % klist)
 
 
 
