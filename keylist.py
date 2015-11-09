@@ -35,10 +35,11 @@ def readfile(filename):
     return contents
 
 # Get reference info
-rstuff = readfile('reflistX.txt')
+rstuff = readfile('brown-all.txt')
 
 rtokens = nltk.word_tokenize(rstuff)
 rtext = nltk.Text(rtokens)
+rtext = [w for w in rtext if w.isalpha()]
 
 # Get frequency list of the Top 2000 words in the reference list (rtop2k)
 rfreq = nltk.FreqDist(rtext)
@@ -50,10 +51,11 @@ for r in rtop2k:
 print("Top 2000 list: %s" % rtop2k)
 
 # Get target info
-tstuff = readfile('targlistX.txt')
+tstuff = readfile('target_corpus.txt')
 
 ttokens = nltk.word_tokenize(tstuff)
 ttext = nltk.Text(ttokens)
+ttext = [w for w in ttext if w.isalpha()]
 
 # Get frequency list of all the target info (tfreq)
 tfreq = nltk.FreqDist(ttext)
